@@ -1,0 +1,6 @@
+CACHE MANIFEST
+#rev1
+index.html
+min/b=js&amp;f=ext-touch.js,components.js,reports.js,Mobilitix.js
+min/f=resources/css/sencha-touch.css,css/mobilitix.css
+img/ajax-loader.gif
