@@ -12,6 +12,6 @@
  **/
 
 return array(
-     'js' => array('//js/ext-touch.js', '//js/components.js','//js/reports.js','//js/Mobilitix.js'),
+     'js' => array('//js/sencha-touch.js', '//js/components.js','//js/reports.js','//js/Mobilitix.js'),
      'css' => array('//resources/css/sencha-touch.css', '//css/mobilitix.css'),
 );

@@ -4,33 +4,26 @@
 
 @import '../global';
 
-$button_height: 1.8em;
-$button_radius: .4em;
-$button_stroke_weight: .1em;
-$button_gradient: $base_gradient !default;
+$button-height: 1.8em;
+$button-radius: .4em;
+$button-stroke-weight: .1em;
+$button-gradient: $base-gradient !default;
 
-$toolbar_icon_size: 1.4em !default;
+$toolbar-icon-size: 1.4em !default;
 
-$include_button_uis: $include_default_uis !default;
-
-@mixin pictos-button-iconmask($name) {
-  @if $name {
-    .x-button img.x-icon-mask.#{$name} {
-      -webkit-mask: theme_image($theme_name, "pictos/" + $name + ".png");
-    }
-  }
-}
+$include-button-uis: $include-default-uis !default;
+$include-button-highlights: $include-highlights !default;
 
 @mixin sencha-buttons {
   
   // Basic button style
   .x-button {
     @include background-clip(padding-box);
-    @include border-radius($button_radius);
+    @include border-radius($button-radius);
     @include display-box;
     @include box-align(center);
-    @include toolbar_button(#ccc, $button_gradient);
-    min-height: $button_height;
+    @include toolbar-button(#ccc, $button-gradient);
+    min-height: $button-height;
     padding: .3em .6em;
     position: relative;
     overflow: hidden;
@@ -56,8 +49,8 @@ $include_button_uis: $include_default_uis !default;
   }
   
   .x-button-round {
-    @include border-radius($button_height/2);
-    padding: .1em $button_height/2;
+    @include border-radius($button-height/2);
+    padding: .1em $button-height/2;
   }
 
   .x-button-small, .x-toolbar .x-button-small {
@@ -90,10 +83,10 @@ $include_button_uis: $include_default_uis !default;
     @include box-direction(reverse);
   }
   .x-iconalign-left .x-button-label {
-    margin-left: $toolbar_spacing * 1.5;
+    margin-left: $toolbar-spacing * 1.5;
   }
   .x-iconalign-right .x-button-label {
-    margin-right: $toolbar_spacing * 1.5;
+    margin-right: $toolbar-spacing * 1.5;
   }
   
   // Button labels
@@ -120,52 +113,53 @@ $include_button_uis: $include_default_uis !default;
   }
   
   // Back/Forward buttons
-  $shadow_width: .065em; // Space between tip and its shadow
-  $overlap_width: .2em; // how far the mask is clipped
+  $shadow-width: .065em; // Space between tip and its shadow
+  $overlap-width: .2em; // how far the mask is clipped
 
-  $mask_height: $button_height + $button_stroke_weight * 2; // Ugh, this is non-specific... borders?
-  $mask_width: $mask_height/2.33;
+  // $mask-height: $button-height + $button-stroke-weight * 2; // Ugh, this is non-specific... borders?
+  $mask-height: $button-height;
+  $mask-width: $mask-height/2.33;
 
-  $mask_offset: $button_radius - $overlap_width - $button_stroke_weight + $shadow_width - .02em;
+  $mask-offset: $button-radius - $overlap-width - $button-stroke-weight + $shadow-width - .02em;
   
-  $tip_width: $mask_width - $mask_offset + $shadow_width;
+  $tip-width: $mask-width - $mask-offset + $shadow-width;
 
   .x-button-forward, .x-button-back {
     position: relative;
     overflow: visible;
-    height: $mask_height;
+    height: $button-height;
     z-index: 1;
     &:before, &:after {
-      @include insertion($mask_width, $mask_height, -$button_stroke_weight, auto);
+      @include insertion($mask-width, $mask-height, -$button-stroke-weight, auto);
       z-index: 2;
-      -webkit-mask: $mask_offset 0 theme_image($theme_name, "tip.png") no-repeat;
-      -webkit-mask-size: $mask_width $mask_height;
+      -webkit-mask: $mask-offset 0 theme_image($theme-name, "tip.png") no-repeat;
+      -webkit-mask-size: $mask-width $mask-height;
       overflow: hidden;
     }
   }
 
   .x-button-back, .x-toolbar .x-button-back {
-    margin-left: $tip_width + $toolbar_spacing;
+    margin-left: $tip-width + $toolbar-spacing;
     padding-left: .4em;
     &:before {
-      left: - $tip_width;
+      left: - $tip-width;
     }
     &:after {
-      left: - $tip_width + $shadow_width;
+      left: - $tip-width + $shadow-width;
     }
   }
 
   .x-button-forward, .x-toolbar .x-button-forward {
-    margin-right: $tip_width - $shadow_width + $toolbar_spacing;      
+    margin-right: $tip-width - $shadow-width + $toolbar-spacing;      
     padding-right: .4em;
     &:before, &:after {
-      -webkit-mask: -$mask_offset 0 theme_image($theme_name, "tip_right.png") no-repeat;
+      -webkit-mask: -$mask-offset 0 theme_image($theme-name, "tip_right.png") no-repeat;
     }
     &:before {
-      right: - $tip_width;
+      right: - $tip-width;
     }
     &:after {
-      right: - $tip_width + $shadow_width;
+      right: - $tip-width + $shadow-width;
     }
   }
 
@@ -191,9 +185,9 @@ $include_button_uis: $include_default_uis !default;
     }
   
     img {
-      -webkit-mask-size: $toolbar_icon_size;
-      width: $toolbar_icon_size;
-      height: $toolbar_icon_size;
+      -webkit-mask-size: $toolbar-icon-size;
+      width: $toolbar-icon-size;
+      height: $toolbar-icon-size;
     }
   
     &.x-button-pressed {
@@ -201,10 +195,10 @@ $include_button_uis: $include_default_uis !default;
       -webkit-box-shadow: none;
 
       &.x-button-pressed {
-        $mask_radial_glow: lighten($active_color, 50%);
-        @include radial-gradient(color-stops(fade-out($mask_radial_glow, .3), fade-out($mask_radial_glow, 1) 24px));
+        $mask-radial-glow: lighten($active-color, 50%);
+        @include radial-gradient(color-stops(fade-out($mask-radial-glow, .3), fade-out($mask-radial-glow, 1) 24px));
         img {
-          @include bg_gradient(lighten($base_color, 50%), 'recessed');
+          @include background-gradient(lighten($base-color, 50%), 'recessed');
         }
       }
     }
@@ -215,10 +209,10 @@ $include_button_uis: $include_default_uis !default;
     @include border-radius(0);
     margin: 0;
     &:first-child {
-      @include border-left-radius($button_radius);
+      @include border-left-radius($button-radius);
     }
     &:last-child {
-      @include border-right-radius($button_radius);
+      @include border-right-radius($button-radius);
     }
     &:not(:first-child) {
       border-left: 0;
@@ -226,20 +220,20 @@ $include_button_uis: $include_default_uis !default;
   }
   
   // Badges
-  $badge_size: 2em !default;
-  $badge_bg_color: darken($alert_color, 20%) !default;
-  $badge_bg_gradient: 'glossy';
+  $badge-size: 2em !default;
+  $badge-bg-color: darken($alert-color, 20%) !default;
+  $badge-bg-gradient: 'glossy';
 
   .x-hasbadge {
     overflow: visible;
     .x-badge {
       @extend .x-button-label;
-      @include border-radius($badge_size/2);
+      @include border-radius($badge-size/2);
       @include background-clip(padding-box);
       padding: .15em .25em;
       z-index: 30;
-      @if $include_highlights {
-        @include bevel_by_background($badge_bg_color);
+      @if $include-button-highlights {
+        @include bevel-by-background($badge-bg-color);
         -webkit-box-shadow: #000 0 .1em .2em;
       }
       overflow: hidden;
@@ -247,58 +241,57 @@ $include_button_uis: $include_default_uis !default;
       border: 2px solid #fff;
       position: absolute;
       width: auto;
-      min-width: $badge_size;
-      height: $badge_size;
+      min-width: $badge-size;
+      height: $badge-size;
       line-height: 1.2em;
       font-size: .6em;
       top: -.15em;
       right: 0px;
       max-width: 100%;
 
-      @include bg_gradient($badge_bg_color, $badge_bg_gradient);
+      @include background-gradient($badge-bg-color, $badge-bg-gradient);
       display: inline-block;
     }
   }
   
-  @if $include_default_icons {
-    @include pictos-button-iconmask('action');
-    @include pictos-button-iconmask('add');
-    @include pictos-button-iconmask('arrow_down');
-    @include pictos-button-iconmask('arrow_left');
-    @include pictos-button-iconmask('arrow_right');
-    @include pictos-button-iconmask('arrow_up');
-    @include pictos-button-iconmask('compose');
-    @include pictos-button-iconmask('delete');
-    @include pictos-button-iconmask('organize');
-    @include pictos-button-iconmask('refresh');
-    @include pictos-button-iconmask('reply');
-    @include pictos-button-iconmask('search');
-    @include pictos-button-iconmask('settings');
-    @include pictos-button-iconmask('star');
-    @include pictos-button-iconmask('trash');
-    @include pictos-button-iconmask('maps');
-    @include pictos-button-iconmask('locate');
-    @include pictos-button-iconmask('home');
+  @if $include-default-icons {
+    @include pictos-iconmask('action');
+    @include pictos-iconmask('add');
+    @include pictos-iconmask('arrow_down');
+    @include pictos-iconmask('arrow_left');
+    @include pictos-iconmask('arrow_right');
+    @include pictos-iconmask('arrow_up');
+    @include pictos-iconmask('compose');
+    @include pictos-iconmask('delete');
+    @include pictos-iconmask('organize');
+    @include pictos-iconmask('refresh');
+    @include pictos-iconmask('reply');
+    @include pictos-iconmask('search');
+    @include pictos-iconmask('settings');
+    @include pictos-iconmask('star');
+    @include pictos-iconmask('trash');
+    @include pictos-iconmask('maps');
+    @include pictos-iconmask('locate');
+    @include pictos-iconmask('home');
   }
   
-  // @include sencha-button-ui('normal', #ccc);
-  @if $include_button_uis {
-    @include sencha-button-ui('action', $active_color);
-    @include sencha-button-ui('confirm', desaturate(darken($bright_color, 10%), 5%));
-    @include sencha-button-ui('decline', desaturate(darken($alert_color, 10%), 5%));
+  @if $include-button-uis {
+    @include sencha-button-ui('action', $active-color);
+    @include sencha-button-ui('confirm', desaturate(darken($confirm-color, 10%), 5%));
+    @include sencha-button-ui('decline', desaturate(darken($alert-color, 10%), 5%));
   }
 }
 
-@mixin sencha-button-ui($ui_label, $color, $gradient: $button_gradient) {
-  .x-button.x-button-#{$ui_label}, .x-button.x-button-#{$ui_label}-round, .x-button.x-button-#{$ui_label}-small {
-    @include toolbar_button($color, $gradient);
+@mixin sencha-button-ui($ui-label, $color, $gradient: $button-gradient) {
+  .x-button.x-button-#{$ui-label}, .x-button.x-button-#{$ui-label}-round, .x-button.x-button-#{$ui-label}-small {
+    @include toolbar-button($color, $gradient);
   }
   
-  .x-button.x-button-#{$ui_label}-round {
+  .x-button.x-button-#{$ui-label}-round {
     @extend .x-button-round;
   }
   
-  .x-button.x-button-#{$ui_label}-small {
+  .x-button.x-button-#{$ui-label}-small {
     @extend .x-button-small;
   }
 }

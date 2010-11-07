@@ -1,59 +1,66 @@
 @import 'compass/css3';
 
 // options: matte, bevel, glossy, recessed, flat
-@mixin bg_gradient($bg_color, $type: $base_gradient) {
-  background-color: $bg_color;
-  @if $include_highlights {
+@mixin background-gradient($bg-color, $type: $base-gradient) {
+  background-color: $bg-color;
+  @if $include-highlights {
     @if $type == bevel {
-      @include linear-gradient(color_stops(lighten($bg_color, 30%), lighten($bg_color, 15%) 2%, lighten($bg_color, 8%) 30%, $bg_color 65%, darken($bg_color, 10%)));
+      @include linear-gradient(color_stops(lighten($bg-color, 30%), lighten($bg-color, 15%) 2%, lighten($bg-color, 8%) 30%, $bg-color 65%, darken($bg-color, 10%)));
     } @else if $type == glossy {
-      @include linear-gradient(color_stops(lighten($bg_color, 15%), lighten($bg_color, 5%) 50%, $bg_color 51%, darken($bg_color, 5%)));
+      @include linear-gradient(color_stops(lighten($bg-color, 15%), lighten($bg-color, 5%) 50%, $bg-color 51%, darken($bg-color, 5%)));
     } @else if $type == recessed {
-      @include linear-gradient(color_stops(darken($bg_color, 10%), darken($bg_color, 5%) 10%, $bg_color 65%, lighten($bg_color, .5%)));
+      @include linear-gradient(color_stops(darken($bg-color, 10%), darken($bg-color, 5%) 10%, $bg-color 65%, lighten($bg-color, .5%)));
     } @else if $type == matte {
-      @include linear-gradient(color_stops(lighten($bg_color, 30%), lighten($bg_color, 10%) 2%, darken($bg_color, 7%)));
+      @include linear-gradient(color_stops(lighten($bg-color, 30%), lighten($bg-color, 10%) 2%, darken($bg-color, 7%)));
     }
+  }
+}
+
+// Embeds an icon mask for both tabs and buttons
+@mixin pictos-iconmask($name) {
+  .x-tab img.#{$name}, .x-button img.x-icon-mask.#{$name} {
+    -webkit-mask-image: theme_image($theme-name, "pictos/" + $name + ".png");
   }
 }
 
 // The toolbar button mixin adds background colors and borders
 // as well as styles the rounded and back/forward button types
-@mixin toolbar_button($bgcolor, $type: $button_gradient){
+@mixin toolbar-button($bg-color, $type: $button-gradient){
   &, .x-toolbar & {
-    border: .1em solid darken($bgcolor, 20%);
-    border-top-color: darken($bgcolor, 15%);
-    @include color_by_background($bgcolor);
+    border: .1em solid darken($bg-color, 20%);
+    border-top-color: darken($bg-color, 15%);
+    @include color-by-background($bg-color);
     
     &.x-button-back:before, &.x-button-forward:before {
-      background: darken($bgcolor, 20%);
+      background: darken($bg-color, 20%);
     }
   
     &, &.x-button-back:after, &.x-button-forward:after {
-      @include bg_gradient($bgcolor, $type);
+      @include background-gradient($bg-color, $type);
     }
     
     img.x-icon-mask {
-      @include mask_by_background($bgcolor);
+      @include mask-by-background($bg-color);
     }
   
-    @if $include_highlights {
-      @include bevel_by_background($bgcolor);
+    @if $include-highlights {
+      @include bevel-by-background($bg-color);
       -webkit-box-shadow: rgba(#fff, .1) 0 .1em 0;
     }
 
     &.x-button-pressed, &.x-button-active {
       &, &:after {
-        @include bg_gradient(darken($bgcolor, 7%), 'recessed');
+        @include background-gradient(darken($bg-color, 7%), 'recessed');
       }
-      @if $include_highlights {
-        -webkit-box-shadow: inset saturate(darken($bgcolor, 15%), 5%) 0 0 .1em, rgba(#fff, .1) 0 .1em 0;
+      @if $include-highlights {
+        -webkit-box-shadow: inset saturate(darken($bg-color, 15%), 5%) 0 0 .1em, rgba(#fff, .1) 0 .1em 0;
       }
     }
   }
 }
 
-@mixin bevel_text($type: 'shadow') {
-  @if $include_highlights {
+@mixin bevel-text($type: 'shadow') {
+  @if $include-highlights {
     @if $type == shadow {
       text-shadow: rgba(0,0,0,.5) 0 -.08em 0;
     } @else {
@@ -62,8 +69,8 @@
   }
 }
 
-@mixin bevel_box($type: 'light') {
-  @if $include_highlights {
+@mixin bevel-box($type: 'light') {
+  @if $include-highlights {
     @if $type == shadow {
       -webkit-box-shadow: rgba(#000, .5) 0 -.06em 0;
     } @else {
@@ -73,13 +80,12 @@
 }
 
 @mixin insertion($width: 30px, $height: 30px, $top: 0, $left: 0) {
-  content: "\00a0";
+  content: " ";
   position: absolute;
   width: $width;
   height: $height;
   top: $top;
   left: $left;
-  @include box-sizing(border-box); // Doesn't get set by * in _core.scss
 }
 
 @mixin stretch {
@@ -90,17 +96,17 @@
   left: 0;
 }
 
-@mixin color_by_background($bg, $contrast: 100%) {
-  @if (lightness($bg) > 50) { color: darken($bg, $contrast) }
-  @else { color: lighten($bg, $contrast) }
+@mixin color-by-background($bg-color, $contrast: 100%) {
+  @if (lightness($bg-color) > 50) { color: darken($bg-color, $contrast) }
+  @else { color: lighten($bg-color, $contrast) }
 }
 
-@mixin bevel_by_background($bg) {
-  @if (lightness($bg) > 50) { @include bevel_text(light) }
-  @else { @include bevel_text; }
+@mixin bevel-by-background($bg-color) {
+  @if (lightness($bg-color) > 50) { @include bevel-text(light) }
+  @else { @include bevel-text; }
 }
 
-@mixin mask_by_background($bg, $contrast: 100%, $style: 'glossy') {
-  @if (lightness($bg) > 50) { @include bg_gradient(darken($bg, $contrast), $style) }
-  @else { @include bg_gradient(lighten($bg, $contrast), $style) }
+@mixin mask-by-background($bg-color, $contrast: 100%, $style: $base-gradient) {
+  @if (lightness($bg-color) > 50) { @include background-gradient(darken($bg-color, $contrast), $style) }
+  @else { @include background-gradient(lighten($bg-color, $contrast), $style) }
 }

@@ -1,8 +1,8 @@
 @import '../global';
 
-$toolbar_input_bg: #f6f6f6;
-$toolbar_input_color: #000;
-$toolbar_input_height: 1.5em;
+$toolbar-input-bg: #f6f6f6 !default;
+$toolbar-input-color: #000 !default;
+$toolbar-input-height: 1.5em !default;
 
 @mixin sencha-toolbar-forms {
   .x-toolbar {
@@ -11,31 +11,32 @@ $toolbar_input_height: 1.5em;
       margin: .3em .5em;
       min-height: 0;
       border-bottom: 0;
+      width: auto;
     }
     
     .x-input-text, .x-input-search {
-      height: $toolbar_input_height;
+      height: $toolbar-input-height;
       min-height: 0;
       line-height: 1.3em;
       -webkit-appearance: none;
       @include border-radius(.3em);
-      @include bg_gradient($toolbar_input_bg, 'recessed');
+      @include background-gradient($toolbar-input-bg, 'recessed');
       padding: .2em;
       margin: 0;
       @include background-clip(padding-box);
       -webkit-box-shadow: inset rgba(#000, .5) 0 .3em .8em;
-      color: lighten($toolbar_input_color, 50%);
+      color: lighten($toolbar-input-color, 50%);
       border: .1em solid rgba(#000, .3);
-      @include bevel_box('light');
+      @include bevel-box('light');
       
       &:focus {
-        color: $toolbar_input_color;
+        color: $toolbar-input-color;
       }
     }
     
     .x-input-search, .x-field-select .x-input-text {
-      padding: .2em $toolbar_input_height/4;
-      @include border-radius($toolbar_input_height/2);
+      padding: .2em $toolbar-input-height/4;
+      @include border-radius($toolbar-input-height/2);
     }
     
     .x-field-select {

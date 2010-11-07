@@ -1,15 +1,15 @@
 @import '../global';
 
-@mixin sencha-picker {
-  $picker_row_height: 2.5em;
-  $picker_active_border: .12em solid $active_color;
-  
-  $picker_sheet_radius: .4em;
+$picker-row-height: 2.5em !default;
+$picker-active-border: .12em solid $active-color !default;
+$picker-sheet-radius: .4em !default;
+$picker-title-color: darken(desaturate($base-color, 10%), 25%) !default;
+$picker-title-bg-color: lighten(saturate($base-color, 10%), 5%) !default;
+$picker-title-bg-gradient: $base-gradient !default;
+$include-picker-highlights: $include-highlights !default;
+$picker-bar-gradient: $base-gradient !default;
 
-  $picker_title_color: darken(desaturate($base_color, 10%), 25%) !default;
-  $picker_title_bg_color: lighten(saturate($base_color, 10%), 5%) !default;
-  $picker_title_bg_gradient: $base_gradient !default;
-  $picker_highlights: $include_highlights !default;
+@mixin sencha-picker {
   
   .x-sheet.x-picker {
     padding: 0;
@@ -18,35 +18,47 @@
   .x-sheet.x-picker > .x-sheet-body {
     position: relative;
     background-color: #fff;
-    @include border-radius($picker_sheet_radius);
+    @include border-radius($picker-sheet-radius);
     @include background-clip(padding-box);
     overflow: hidden;
-    margin: $sheet_padding;
+    margin: $sheet-padding;
 
-    &:before, &:after {
-      z-index: 1;
-      @include insertion(100%, 30%, 0, 0);
-    }
-    @if $include_highlights {
+    @if $include-picker-highlights {
+      &:before, &:after {
+        z-index: 1;
+        @include insertion(100%, 30%, 0, 0);
+      }
+      
       &:before {
         top: auto;
-        @include border-bottom-radius($picker_sheet_radius);
+        @include border-bottom-radius($picker-sheet-radius);
         bottom: 0;
         @include linear-gradient(color-stops(#fff, #bbb));
       }
       &:after {
-        @include border-top-radius($picker_sheet_radius);
+        @include border-top-radius($picker-sheet-radius);
         @include linear-gradient(color-stops(#bbb, #fff));
       }
     }
   }
 
+  .x-picker-slot {
+    z-index: 2;
+    position: relative;
+    @if $include-highlights {
+      -webkit-box-shadow: rgba(#000,.4) -1px 0 1px;
+    }
+    &:first-child {
+      -webkit-box-shadow: none;
+    }
+  }
+    
   .x-picker-mask {
-    width: 100%;
-    height: 100%;
     position: absolute;
     top: 0;
     left: 0;
+    right: 0;
+    bottom: 0;
     z-index: 3;
     @include display-box;
     @include box-align(stretch);
@@ -56,43 +68,33 @@
   }
 
   .x-picker-bar {
-    border-top: $picker_active_border;
-    border-bottom: $picker_active_border;
-    height: $picker_row_height;
-    @include bg_gradient(rgba(21, 108, 182, 0.55), 'glossy');
-    @if $include_highlights {
+    border-top: $picker-active-border;
+    border-bottom: $picker-active-border;
+    height: $picker-row-height;
+    @include background-gradient(rgba($active-color, 0.4), $picker-bar-gradient);
+    @if $include-highlights {
       -webkit-box-shadow: rgba(#000,0.2) 0 .2em .2em;
     }
   }
   
-  .x-picker-slot {
-    z-index: 2;
-    @if $include_highlights {
-      -webkit-box-shadow: rgba(#000,.4) -1px 0 1px;
-    }
-    &:first-child {
-      -webkit-box-shadow: none;
-    }
-  }
-  
   .x-picker-slot-title {
-    @include bg_gradient($picker_title_bg_color, $picker_title_bg_gradient);
-    border-top: 1px solid $picker_title_bg_color;  
-    border-bottom: 1px solid darken($picker_title_bg_color, 20%);  
+    @include background-gradient($picker-title-bg-color, $picker-title-bg-gradient);
+    border-top: 1px solid $picker-title-bg-color;  
+    border-bottom: 1px solid darken($picker-title-bg-color, 20%);  
     font-weight: bold;
     font-size: 0.8em;
-    color: $picker_title_color;
+    color: $picker-title-color;
     padding: 0.2em 1.02em;
-    @if $picker_highlights {
+    @if $include-picker-highlights {
       -webkit-box-shadow: 0px .1em .3em rgba(0, 0, 0, 0.3);
-      @include bevel_text('light');
+      @include bevel-text('light');
     }
   }
   
   .x-picker-item {
     vertical-align: middle;
-    height: $picker_row_height;
-    line-height: $picker_row_height;
+    height: $picker-row-height;
+    line-height: $picker-row-height;
     font-weight: bold;
     padding: 0 10px 0 10px;
     text-overflow: ellipsis;

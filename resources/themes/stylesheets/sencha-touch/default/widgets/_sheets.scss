@@ -1,18 +1,18 @@
 @import '../global';
 
-$sheet_bg_color: transparentize(darken($base_color, 40%), .1);
-$sheet_button_spacing: .5em;
-
-$sheet_padding: .7em;
+$sheet-bg-color: transparentize(darken($base-color, 40%), .1) !default;
+$sheet-bg-gradient: $base-gradient !default;
+$sheet-button-spacing: .5em !default;
+$sheet-padding: .7em !default;
 
 @mixin sencha-sheet {
   .x-sheet {
-    padding: $sheet_padding;
-    border-top: 1px solid darken($base_color, 30%);
-    @include bg_gradient($sheet_bg_color, 'bevel');
+    padding: $sheet-padding;
+    border-top: 1px solid darken($base-color, 30%);
+    @include background-gradient($sheet-bg-color, $sheet-bg-gradient);
 
     .x-sheet-body .x-button {
-      margin-bottom: $sheet_button_spacing;
+      margin-bottom: $sheet-button-spacing;
     }
   }
 

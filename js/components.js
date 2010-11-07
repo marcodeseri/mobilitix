@@ -65,14 +65,13 @@ var acquisitionDock =  [
   })
 ];
 
-
-var basicDock = [{
+var basicDockConfig = {
     xtype: 'toolbar',
     dock: 'top',
-    title: 'Mobilitix'
-    
-}]
-        
+    title: 'Mobilitix'    
+}
+
+       
 appLoader = new Ext.Panel({
     floating: true,
     modal: true,
@@ -86,17 +85,16 @@ appLoader = new Ext.Panel({
 });
 
  
-var welcomeCard = new Ext.Panel({
+var welcomeCardConfig = {
 	title: 'Mobilitix',
   cls: 'welcomeCnt',
 	iconCls: 'settings',
 	id: 'welcomeTab',
   scroll: 'vertical',
-  dockedItems: basicDock,
   html: ['<br/><br/><p>Mobilitix is a Google Analytics Mobile app: tap the button below to get started!</p><br/>',
 			'<div id="loginButton"><div id="ext-comp-1141" class=" x-button x-button-action" style="margin:5px auto;width:300px"><span class="x-button-label" id="ext-gen1174">Access <br/> Google Analytics</span></div></div>',
 		  '<br/><br/><p style="font-size:12px">You will login on Google Servers: your password is safe with us.</p>']				
-});
+};
 
 var logout = new Ext.Component({
 	title: 'Logout',

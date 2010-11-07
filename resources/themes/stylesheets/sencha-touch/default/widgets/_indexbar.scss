@@ -1,32 +1,38 @@
 @import '../global';
 
-@mixin sencha-indexbar($barWidth: 35px) {
+$index-bar-width: 2.1em !default;
+$index-bar-bg-color: rgba(lighten(desaturate($base-color, 5%), 5%), .8) !default;
+$index-bar-color: darken(desaturate($base-color, 5%), 15%) !default;
+
+@mixin sencha-indexbar {
   .x-indexbar {
-    padding: 0 5px;
-    width: $barWidth;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-box-align: stretch;
-    -webkit-box-pack: center;
+    padding: 0 .3em;
+    width: $index-bar-width;
+    @include display-box;
+    @include box-orient(vertical);
+    @include box-align(stretch);
+    @include box-pack(center);
+    position: absolute;
+    top: 1.5em;
+    right: 0;
+    bottom: 1em;
+    z-index: 3;
 
-    &.x-indexbar-vertical > .x-panel-body {
-      padding: .3em 0;
-      @include border-radius($barWidth/2);
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-box-align: center;
+    &.x-indexbar-pressed .x-indexbar-body {
+      padding: .4em 0;
+      @include display-box;
+      @include box-orient(vertical);
+      @include border-radius(($index-bar-width - .6em)/2);
+      background-color: $index-bar-bg-color;
     }
 
-    &.x-indexbar-pressed > .x-panel-body {
-      background-color: rgba(0, 0, 0, 0.2);
-    }
-
-    span.x-indexbar-item {
-      color: #666;
+    .x-indexbar-item {
+      color: $index-bar-color;
       font-size: 0.6em;
+      text-align: center;
+      line-height: 1.1em;
       font-weight: bold;
       display: block;
-      text-shadow: rgba(255, 255, 255, 0.4) 0 1px 0;
     }
   }
 }

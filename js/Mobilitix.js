@@ -11,8 +11,6 @@ Ext.regModel('Account', {
  Ext.setup({
     tabletStartupScreen: 'tablet_startup.png',
     phoneStartupScreen: 'phone_startup.png',
-    icon: 'icon.png',
-    glossOnIcon: false,
     onReady: function() {
 		
 		var scope = "https://www.google.com/analytics/feeds";
@@ -24,8 +22,8 @@ Ext.regModel('Account', {
     
     
    
-    
-    accountCard = new Ext.Panel({id:'accountCard'})
+    welcomeCard = new Ext.Panel({id:'welcomeCard', dockedItems: new Ext.Toolbar(basicDockConfig)})
+    accountCard = new Ext.Panel({id:'accountCard', dockedItems: new Ext.Toolbar(basicDockConfig)})
     reportCard = new Ext.Panel({id:'reportCard'});
     
     
@@ -192,6 +190,10 @@ Ext.regModel('Account', {
        
 			},
 			welcomeLayout: function(){
+			  welcomeCardNotLogged = new Ext.Panel(welcomeCardConfig)
+			  welcomeCard.add(welcomeCardNotLogged)
+			  welcomeCard.doComponentLayout();
+			  			  
 				if(Ext.get('loginButton'))
 				  Ext.EventManager.on('loginButton','tap',init.checkAuth);
 				  
@@ -231,18 +233,17 @@ Ext.regModel('Account', {
        
          accountList =  new Ext.List({
             height: getDesiredH(0),
-            dockedItems: basicDock,
             grouped: true,
             indexBar: true,
             centered: true,
             modal: true,
             hideOnMaskTap: false,
+            overItemCls: 'x-item-pressed',
             listeners: {
             itemtap: setAccount,
           },
           store: Mobilitix.AccountStore,
-          tpl: '<tpl for="."><div class="accountList"><strong>{profileName}</strong></div></tpl>',
-          itemSelector: 'div.accountList'
+          itemTpl: '<div class="accountList"><strong>{profileName}</strong></div>'
            
          });
                      
@@ -250,12 +251,12 @@ Ext.regModel('Account', {
         
          init.hideLoader();
          appHolder.doLayout();
-         appHolder.setCard('accountCard',  {type: 'slide'});
+         appHolder.setActiveItem('accountCard',  {type: 'slide'});
          
          pTracker('showAccounts'); 
 			},	
 			enableReports: function(){
-				appHolder.setCard('reportCard',  {type: 'slide'})
+				appHolder.setActiveItem('reportCard',  {type: 'slide'})
 				
 				
 				
@@ -313,7 +314,7 @@ Ext.regModel('Account', {
        
        
          
-        tabpanel.setCard(dashboard);
+        tabpanel.setActiveItem(dashboard);
        
         elms = tabpanel.getDockedComponent('topDock'); 
         elms.setTitle(Mobilitix.accountName)
@@ -602,7 +603,7 @@ Ext.regModel('Account', {
 
 
     var accountSelection = function(){
-      appHolder.setCard('accountCard', {type:'slide', reverse:true});
+      appHolder.setActiveItem('accountCard', {type:'slide', reverse:true});
       
      
       
@@ -648,12 +649,7 @@ Ext.regModel('Account', {
             this.actions.show();
 		};
 
-
-    
-
-		
-		init.bootstrap();
-		
+		  init.bootstrap();
 		
     }
 });
